@@ -51,9 +51,12 @@ const SearchForm = styled.form`
     top: 0;
     left: 0;
     transition: 500ms;
+    width: 30px;
     &.on{
         border-color: #fff;
         transition: 500ms;
+        width: 240px;
+        border-radius: 4px;
     }
     .search-btn{
         color: #fff;
@@ -64,7 +67,8 @@ const SearchForm = styled.form`
     input{
         width: ${({visible})=>(visible ? '200px' : '0px')};
         color: #fff;
-        opacity: ${(visible)=>(visible ? 1 : 0)};   
+        opacity: ${(visible)=>(visible ? 1 : 0)};
+        
     }
     .clear-btn{
         position: absolute;
