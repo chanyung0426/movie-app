@@ -54,12 +54,18 @@ button{
     background: transparent;
     cursor: pointer;
 }
+img{
+	display: block;
+	width: 100%;
+}
 
 input{
     background: transparent;
     border: none;
 }
-
+body,html{
+	background: #111111;
+}
 `
 
 export default GlobalStyle;

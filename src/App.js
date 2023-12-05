@@ -1,24 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import reportWebVitals from './reportWebVitals';
+import GlobalStyle from './styled/GlobalStyle';
+import Main from './pages/Main';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import NotFound from './pages/NotFound';
+import MainVideos from './components/MainVideos';
+import MovieList from './components/MovieList';
+import {Provider} from 'react-redux';
+import { applyMiddleware, compose, createStore } from 'redux';
+import {thunk} from 'redux-thunk';
+import rootReducer from './store/reducer';
+import MovieDetail from './pages/MovieDetail';
+
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENTION_COMPOSE__ || compose;
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <GlobalStyle/>
+     
+      <Main/>
+      <MainVideos/>
+      <Provider store={store}>
+         <MovieList/>
+      </Provider>
+    </> 
   );
 }
 

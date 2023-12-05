@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fecthActionMovies } from '../store';
+import { fecthComedyMovies } from '../store';
 import styled from 'styled-components';
 
 
@@ -15,12 +15,12 @@ import '../styled/swiperCustomCss.css';
 import Overview from './Overview';
 
 
-function Action() {
+function Comedy() {
 
     const [isClick, setIsClick] = useState(false)
     const dispatch = useDispatch(); //생성된 action의 state의 접근
     useEffect(()=>{
-        dispatch(fecthActionMovies())
+        dispatch(fecthComedyMovies())
     },[])
     //console.log(fecthActionMovies())
 
@@ -64,7 +64,7 @@ function Action() {
     )
 }
 
-export default Action
+export default Comedy
 
 const MovieContainer = styled.div`
     margin-bottom: 50px;
