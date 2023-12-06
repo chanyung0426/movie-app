@@ -1,22 +1,28 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import styled from 'styled-components';
 import { MdClose } from "react-icons/md";
 import { Link } from 'react-router-dom';
 
-function Overview({movie, setIsClick}) {
+function Overview({setIsClick, title, movieId, backdrop_path, overview}) {
+    const [isVisible, setIsVisible] = useState(false);
+    const overViewRef = useRef(null)
+    console.log()
     return (
-        <HoverContainer className='overview'>
+        <HoverContainer ref={overViewRef} className={`overview ${isVisible ? 'visible' : ''}`}>
+
             <HoverWrapper>
                 <CloseBtn onClick={()=>setIsClick(false)}>
                    <MdClose />
                 </CloseBtn>
-                <Link to={`/movie/${movie.id}`}>
-                   <img src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}/>
+                <Link to={`/movie/${movieId}`}>
+                   <img src={`https://image.tmdb.org/t/p/original/${backdrop_path}`}/>
                 </Link>
             <HoverText>
-                <h2>{movie.title}</h2>
+                <h2>{title}</h2>
+                <p>{overview}</p>
             </HoverText>
             </HoverWrapper>
+
         </HoverContainer>
     )
 }

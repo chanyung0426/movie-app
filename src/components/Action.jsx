@@ -13,16 +13,19 @@ import 'swiper/css/navigation'; //스와이퍼 좌우버튼 기본 css
 import 'swiper/css/pagination'; //스와이퍼 도트 리스트 기본 css
 import '../styled/swiperCustomCss.css';
 import Overview from './Overview';
+import MovieCard from './MovieCard';
 
 
 function Action() {
 
+    const [itemSelect, setItemSelect] = useState({});
     const [isClick, setIsClick] = useState(false)
+    const [ genres, setGenres]= useState({})
     const dispatch = useDispatch(); //생성된 action의 state의 접근
     useEffect(()=>{
         dispatch(fecthActionMovies())
     },[])
-    //console.log(fecthActionMovies())
+    console.log(fecthActionMovies())
 
     const actionData = useSelector((state)=>state.action.movies, []) || []
     //console.log(actionData.results)
@@ -33,6 +36,33 @@ function Action() {
     const overViewClose = () =>{
         setIsClick(false);
     };
+
+    //장르추가
+    useEffect(()=>{
+        const fetchGenres = async ()=>{
+            try{
+                const res = await fetch('https://api.themoviedb.org/3/genre/movie/list?api_key=82776dd4e021405937c471b1f995902b&language=ko-KR')
+                const data = await res.json();
+                const genreMap = data.genres.reduce((acc,genre)=>{
+                    acc[genre.id] = genre.name;
+                    return acc
+                },{});
+                setGenres(genreMap)
+            }catch(error){
+                console.error(error)
+            }
+        }
+        fetchGenres();
+    },[])
+
+    const getGenreText = (genreId)=>{
+        return genreId.map((el)=>genres[el]).join()
+    }
+
+    const movieClickEvent = (movie)=>{
+        setItemSelect(movie);
+        setIsClick(true);
+    }
 
     return (
         <div>
@@ -50,16 +80,21 @@ function Action() {
                     <MovieWrapper>
                         {actionData.results && actionData.results.map((el,index)=>(
                             <SwiperSlide>
-                                <MovieItem onClick={()=>overViewEvent(el,index)}>
-                                    <img src = {`https://image.tmdb.org/t/p/original/${el.backdrop_path}`}/>
-                                </MovieItem>
-                               
+                               <MovieCard 
+                               movie={el} genreText={getGenreText(el.genre_ids)}
+                               onClick={movieClickEvent}
+                               ></MovieCard>
                             </SwiperSlide>
                         ))}
                     </MovieWrapper>
                 </Swiper>
             </MovieContainer>
-            {isClick && <Overview movie={isClick} setIsClick={overViewClose}/>}
+            {isClick && (
+            <OverViewWrapper isVisble ={!!itemSelect}>
+                 <Overview {...itemSelect} setIsClick={()=>setIsClick(false)}/>
+            </OverViewWrapper>
+            )}
+            
         </div>
     )
 }
@@ -83,10 +118,16 @@ const MovieWrapper = styled.div`
     gap: 30px; */
     height: 200px;
 `
-
-const MovieItem = styled.div`
-img{
-    display: block;
-    max-width: 100%;
-}
+const OverViewWrapper = styled.div`
+    display: ${props => [props.isVisble ? 'block' : 'none']};
+    width: 100vw;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
 `
+

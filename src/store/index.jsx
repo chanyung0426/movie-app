@@ -34,7 +34,7 @@ export const fecthActionMovies = () =>{
 export const fecthComedyMovies = () =>{
     return(dispatch)=>{
         //dispatch : 외부에서 데이터를 가져올때 사용하는 reducer의 기능 useState의 대체
-        return axios.get(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=28`)
+        return axios.get(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=35`)
         .then((res)=>{
             dispatch(fetchComedyData(res.data))
             //then => axios에서 콜백함수를 대체하는 return과 같은 구문

@@ -24,8 +24,8 @@ function Comedy() {
     },[])
     //console.log(fecthActionMovies())
 
-    const actionData = useSelector((state)=>state.action.movies, []) || []
-    //console.log(actionData.results)
+    const actionData = useSelector((state)=>state.comedy.movies, []) || []
+    console.log(actionData.results)
 
     const overViewEvent = (el)=>{
         setIsClick(el)
@@ -37,7 +37,7 @@ function Comedy() {
     return (
         <div>
             <MovieContainer>
-                <MovieTitle>액션</MovieTitle>
+                <MovieTitle>코미디</MovieTitle>
                 <Swiper
                     spaceBetween={10} //슬라이드와 슬라이드 사이 여백(gap);
                     slidesPerView={5} //한번에 보여질 슬라이드 아이템의 갯수
