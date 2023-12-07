@@ -13,6 +13,8 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import {thunk} from 'redux-thunk';
 import rootReducer from './store/reducer';
 import MovieDetail from './pages/MovieDetail';
+import Search from './components/Search';
+
 
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENTION_COMPOSE__ || compose;
@@ -24,6 +26,7 @@ function App() {
       <GlobalStyle/>
      
       <Main/>
+       <Search/>
       <MainVideos/>
       <Provider store={store}>
          <MovieList/>

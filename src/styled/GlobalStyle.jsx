@@ -63,8 +63,15 @@ input{
     background: transparent;
     border: none;
 }
+body{
+	line-height: 1;
+	overflow-x: hidden;
+}
+.no-scroll{
+	overflow-y: hidden;
+}
 body,html{
-	background: #111111;
+	background: #000000;
 }
 `
 

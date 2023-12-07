@@ -14,6 +14,7 @@ import 'swiper/css/pagination'; //스와이퍼 도트 리스트 기본 css
 import '../styled/swiperCustomCss.css';
 import Overview from './Overview';
 import MovieCard from './MovieCard';
+import { fetchGenres } from '../api/api';
 
 
 function Action() {
@@ -22,10 +23,11 @@ function Action() {
     const [isClick, setIsClick] = useState(false)
     const [ genres, setGenres]= useState({})
     const dispatch = useDispatch(); //생성된 action의 state의 접근
+    
     useEffect(()=>{
         dispatch(fecthActionMovies())
     },[])
-    console.log(fecthActionMovies())
+    //console.log(fecthActionMovies())
 
     const actionData = useSelector((state)=>state.action.movies, []) || []
     //console.log(actionData.results)
@@ -39,21 +41,14 @@ function Action() {
 
     //장르추가
     useEffect(()=>{
-        const fetchGenres = async ()=>{
-            try{
-                const res = await fetch('https://api.themoviedb.org/3/genre/movie/list?api_key=82776dd4e021405937c471b1f995902b&language=ko-KR')
-                const data = await res.json();
-                const genreMap = data.genres.reduce((acc,genre)=>{
-                    acc[genre.id] = genre.name;
-                    return acc
-                },{});
-                setGenres(genreMap)
-            }catch(error){
-                console.error(error)
-            }
+        const fetchActionMovieGenres = async()=>{
+            dispatch(fecthActionMovies());
+            const genres = await fetchGenres();
+            setGenres(genres);
         }
-        fetchGenres();
-    },[])
+        fetchActionMovieGenres(); 
+    })
+   
 
     const getGenreText = (genreId)=>{
         return genreId.map((el)=>genres[el]).join()
